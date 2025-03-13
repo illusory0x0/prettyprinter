@@ -2,7 +2,7 @@
 
 ///|
 pub fn Line::from_string(indentation~ : Int = 0, str : &IsString) -> Line {
-  Line::new(indentation~, singleton(str))
+  Line::new(indentation~, @immut_deque.singleton(str))
 }
 
 ///|

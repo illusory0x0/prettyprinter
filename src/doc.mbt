@@ -1,5 +1,5 @@
 pub fn Doc::from_line(line : Line) -> Doc {
-  singleton(line)
+  @immut_deque.singleton(line)
 }
 
 pub fn Doc::from_string(str : &IsString) -> Doc {
@@ -12,7 +12,7 @@ pub fn Doc::new(deque : Deque[Line]) -> Doc {
 
 
 pub fn Doc::from_iter(iter : Iter[Line]) -> Doc {
-  from_iter(iter)
+  Deque::from_iter(iter)
 }
 
 pub fn Doc::empty() -> Doc {
@@ -26,7 +26,7 @@ pub fn Doc::envelop(self : Doc, left~ : &IsString, right~ : &IsString) -> Doc {
     Some((top, t)) =>
       match t.unsnoc() {
         Some((bot, mid)) => mid.cons(top.cons(left)).snoc(bot.snoc(right))
-        None => singleton(top.cons(left).snoc(right))
+        None => @immut_deque.singleton(top.cons(left).snoc(right))
       }
   }
 }
