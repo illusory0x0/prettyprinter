@@ -8,7 +8,7 @@ pub impl IsString for String with length(self) {
 }
 
 pub impl IsString for @string.View with length(self) {
-  self.length()
+  self.char_length()
 }
 
 pub impl IsString for String with write_string(self,logger) {
