@@ -1,5 +1,3 @@
-
-
 ///|
 pub fn Line::from_string(indentation~ : Int = 0, str : &IsString) -> Line {
   Line::new(indentation~, @immut_deque.singleton(str))
@@ -42,14 +40,13 @@ pub fn Line::indent(self : Line, n : Int) -> Line {
 
 ///|
 pub fn Line::width(self : Line) -> Int {
-  self.texts.foldl(
-    self.inden,
-    fn(acc : Int, text : &IsString) -> Int { acc + text.length() },
-  )
+  self.texts.foldl(self.inden, fn(acc : Int, text : &IsString) -> Int {
+    acc + text.length()
+  })
 }
 
+///|
 pub fn Line::iter(self : Line) -> Iter[&IsString] {
   self.texts.iter().prepend(" ".repeat(self.inden))
   // TODO 
 }
-

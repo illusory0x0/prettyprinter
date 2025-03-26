@@ -1,20 +1,24 @@
+///|
 pub fn Doc::from_line(line : Line) -> Doc {
   @immut_deque.singleton(line)
 }
 
+///|
 pub fn Doc::from_string(str : &IsString) -> Doc {
   Line::from_string(str) |> Doc::from_line
 }
 
+///|
 pub fn Doc::new(deque : Deque[Line]) -> Doc {
   deque
 }
 
-
+///|
 pub fn Doc::from_iter(iter : Iter[Line]) -> Doc {
   Deque::from_iter(iter)
 }
 
+///|
 pub fn Doc::empty() -> Doc {
   @immut_deque.empty()
 }
@@ -32,7 +36,11 @@ pub fn Doc::envelop(self : Doc, left~ : &IsString, right~ : &IsString) -> Doc {
 }
 
 ///|
-pub fn Doc::joinline(self : Doc, separator~ : &IsString?=None, bot : Doc) -> Doc {
+pub fn Doc::joinline(
+  self : Doc,
+  separator~ : &IsString? = None,
+  bot : Doc
+) -> Doc {
   let top = self
   match top._.unsnoc() {
     None => bot
@@ -51,8 +59,9 @@ pub fn Doc::joinline(self : Doc, separator~ : &IsString?=None, bot : Doc) -> Doc
   }
 }
 
+///|
 pub fn Doc::height(self : Doc) -> Int {
-  self._.foldl(0,fn(acc,_){ acc + 1})
+  self._.foldl(0, fn(acc, _) { acc + 1 })
 }
 
 ///|
@@ -85,7 +94,7 @@ pub fn Doc::join(self : Doc, separator~ : &IsString) -> Line {
   match self._.uncons() {
     None => Line::empty()
     Some((x, xs)) =>
-      xs.foldl(x,fn(acc, line) { acc.append(line.cons(separator)) })
+      xs.foldl(x, fn(acc, line) { acc.append(line.cons(separator)) })
   }
 }
 
@@ -114,16 +123,15 @@ pub impl Show for Doc with output(self, logger) {
 
 ///|
 pub impl Show for Doc with to_string(self) {
-  let size_hint = self._.foldl(0,
-    fn(acc, line) {
-      line.texts.foldl(acc,fn(acc, text) { acc + text.length() }, )
-    }
-  )
+  let size_hint = self._.foldl(0, fn(acc, line) {
+    line.texts.foldl(acc, fn(acc, text) { acc + text.length() })
+  })
   let builder = StringBuilder::new(size_hint~)
   self.output(builder)
   builder.to_string()
 }
 
+///|
 pub fn Doc::vertical_concat(self : Doc, other : Doc) -> Doc {
   self._.append(other._)
 }
